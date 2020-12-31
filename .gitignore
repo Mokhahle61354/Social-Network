@@ -1,0 +1,10 @@
+$ cat .gitignore
+# exclude everything except directory foo/bar
+**/**.ipynb
+.vscode
+env
+**/.vs
+**/__pycache__
+debug.log
+**/Python-3.7.9
+Python-3.7.9.tgz

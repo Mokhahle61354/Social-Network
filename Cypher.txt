@@ -1,0 +1,138 @@
+#recommend using user Id, returns results for Id+1.
+
+MATCH
+	(hrm:Movie)<-[r:RATED]-(u:User)
+WHERE
+	NOT u.userId = "2"
+	And r.rating>4
+WITH u,hrm LIMIT 25
+
+MATCH
+	(g:Genre)-[:IN_GENRE]-(hrm)
+WITH u,hrm,g
+
+MATCH
+	(su:User)-[r:RATED]-(hrm)
+WHERE
+	r.rating>4
+WITH u,su,g
+
+MATCH
+	(sm:Movie)<-[r:RATED]-(su)
+WHERE
+	r.rating>4
+	AND (sm)-[:IN_GENRE]-(g)
+	AND NOT (sm)-[:RATED]-(u)
+RETURN u,g,sm LIMIT 25
+
+#==
+MATCH
+	(hrm:Movie)<-[r:RATED]-(u:User)
+WHERE
+	r.rating>4
+WITH u,hrm LIMIT 25
+
+MATCH
+	(g:Genre)-[:IN_GENRE]-(hrm)
+WITH u,hrm,g
+
+MATCH
+	(su:User)-[r:RATED]-(hrm)
+WHERE
+	r.rating>4
+WITH u,su,g
+
+MATCH
+	(sm:Movie)<-[r:RATED]-(su)
+WHERE
+	r.rating>4
+	AND (sm)-[:IN_GENRE]-(g)
+	AND NOT (sm)-[:RATED]-(u)
+RETURN u,g,sm LIMIT 25
+//-----------------------------------------------
+
+
+//______________________________________________
+
+MATCH
+	(hrm:Movie)<-[r:RATED]-(u:User)
+WHERE
+	u.userId=18
+	AND r.rating>4
+WITH u,hrm
+
+MATCH
+	(g:Genre)-[:IN_GENRE]-(hrm)
+WITH u,hrm,g
+
+MATCH
+	(su:User)-[r:RATED]-(hrm)
+WITH u,su,g
+
+MATCH
+	(sm:Movie)<-[r:RATED]-(su)
+WHERE
+	r.rating>4
+	AND (sm)-[:IN_GENRE]-(g)
+	AND NOT (sm)-[:RATED]-(u)
+    AND sm.imdbRating>7
+RETURN u,g,sm,su
+LIMIT 300
+
+//______________________________________________
+//for specific userId
+
+MATCH
+	(hrm:Movie)<-[r:RATED]-(u:User)
+WHERE
+	u.userId = "20"
+	AND r.rating>4
+WITH u,hrm
+
+MATCH
+	(g:Genre)-[:IN_GENRE]-(hrm)
+WITH u,hrm,g
+
+MATCH
+	(su:User)-[r:RATED]-(hrm)
+WITH u,su,g
+
+MATCH
+	(sm:Movie)<-[r:RATED]-(su)
+WHERE
+	r.rating>4
+	AND (sm)-[:IN_GENRE]-(g)
+	AND NOT (sm)-[:RATED]-(u)
+    AND sm.imdbRating>7
+RETURN u,g,sm,su
+LIMIT 300
+
+//______________________________________________
+//Super refined
+MATCH
+	(hrm:Movie)<-[r:RATED]-(u:User)
+WHERE
+	u.userId = "20"
+	AND r.rating>4
+WITH u,hrm
+
+MATCH
+	(g:Genre)-[:IN_GENRE]-(hrm)
+WITH u,hrm,g
+
+MATCH
+	(su:User)-[r:RATED]-(hrm)
+WHERE
+	r.rating>4
+WITH u,su,g
+
+MATCH
+	(sm:Movie)<-[r:RATED]-(su)
+WHERE
+	r.rating>4
+	AND (sm)-[:IN_GENRE]-(g)
+	AND NOT (sm)-[:RATED]-(u)
+    AND sm.imdbRating>7
+RETURN u,g,sm,su
+LIMIT 300
+
